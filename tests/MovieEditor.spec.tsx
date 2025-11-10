@@ -1,6 +1,6 @@
 import type { Movie } from "../src/interfaces/movie";
 import { MovieEditor } from "../src/components/MovieEditor";
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 
 describe("MovieEditor Component", () => {
     const mockMovie: Movie = {
@@ -37,5 +37,15 @@ describe("MovieEditor Component", () => {
         const title = screen.getByDisplayValue("The Test Movie");
 
         expect(title).toBeInTheDocument();
+    });
+
+    test("initial description is displayed", () => {
+        const dateRel = screen.getByDisplayValue("A movie for testing");
+        expect(dateRel).toBeInTheDocument();
+    });
+
+    test("cancel function is used", () => {
+        fireEvent.click(screen.getByText(/cancel/i));
+        expect(mockChangeEditing).toHaveBeenCalledTimes(1);
     });
 });
